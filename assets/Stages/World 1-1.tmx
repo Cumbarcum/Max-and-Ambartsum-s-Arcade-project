@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="211" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
+ <tileset firstgid="1" source="output_tileset.tsx"/>
+ <imagelayer id="2" name="Фон">
+  <image source="../../Downloads/World 1-1.png" width="3376" height="480"/>
+ </imagelayer>
+ <layer id="1" name="Коллизии" width="211" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt2FEOgyAMAFCv4P0vu69lyWagSJEp7yUkJmrBYlXcNgAAAID72WcP4CJ7pZWO7enz7BhL+1aYs1WuE0Za6ZkBo6z2/oURat/e/6K2Jhg17pbY2eMYueYprWtq25H4LX229BeJeyZfvfdSZB37dJH5nVVLKzmqh0guj+7bq+ch+k/orlrnojdO67F8lOohMjet52a86/evbbWklmaL1EPkH/uZc7PG3FNLmd+TK7eM3Mhxbj61e7a3jBi9cZ7QVskDAAAAAAAAAAAAAAAAv146KSYf
+  </data>
+ </layer>
+</map>
