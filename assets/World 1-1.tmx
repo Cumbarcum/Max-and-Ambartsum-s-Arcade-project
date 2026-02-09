@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="211" height="15" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="1">
+ <tileset firstgid="1" source="Земля и блоки.tsx"/>
+ <tileset firstgid="25" source="Блоки.tsx"/>
+ <tileset firstgid="473" source="Труба.tsx"/>
+ <tileset firstgid="481" source="Столб.tsx"/>
+ <tileset firstgid="482" source="Замок.tsx"/>
+ <imagelayer id="2" name="Фон" offsetx="2" offsety="0.0909091">
+  <image source="../../../Downloads/NES - Super Mario Bros. - Backgrounds - Background 1 (Mountains).png" width="3372" height="240"/>
+ </imagelayer>
+ <layer id="1" name="Земля" width="211" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt1+sOgjAMhuHBv93/1Xn2UiRRIuK6dltDZL5P0kiyA7r0CxgCAAAAAAAAftWolDR3S7n7jsJ1r+KrANSLgSwBrWIgS0CrdY72kqVR+PR2GEI4Dv5zLTx+m7TW6/9UyR7aPaNwrVn3bU0PL79bzbmkcrSXLHnR+v80jZ2N+SiZi0+pPFh6MdW3W/exlKNesmR9Rmj9f5nGrsZ8lMzFWy4PuX6U+lZb2/r+sFyfy1EvWbI+I7T+v01jd+O5l8zFkyUPqZ7M9a22tvX9YV6v5cj6XC01UF/lcTacse95Uvusmccerfv0UP9yDg/jBSJD
+  </data>
+ </layer>
+ <layer id="4" name="Блоки" width="211" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt1kEKACAIBED//0xf0gcyOkSBzZwEcWFvRgAAAADQTT66rfJOZwIAAPM/Oxe7Lm53y425s196AgAAAFQGPgsKmQ==
+  </data>
+ </layer>
+ <layer id="5" name="Столб" width="211" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztzjEBAAAIA6DZP6VNfG2gByQgAQAAAAAAAAAAALau6wEAAB8MGyoA4w==
+  </data>
+ </layer>
+ <imagelayer id="7" name="Флаг на столбе" offsetx="3160" offsety="49">
+  <image source="Items/Флаг на столбе.png" width="16" height="16"/>
+ </imagelayer>
+ <layer id="6" name="Замок" width="211" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztzjERAAAIBKC3f0uTmMHBc4EEJAAAAAAAAAAAAABwr+t7AAA7AyqBAOQ=
+  </data>
+ </layer>
+</map>
