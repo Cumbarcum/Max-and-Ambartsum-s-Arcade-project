@@ -2,15 +2,38 @@ import arcade
 import random
 
 from PIL.ImageOps import scale
+from pyglet.graphics import Batch
 
 SCREEN_WIDTH = 1920
 SCREEN_HEIGHT = 1200
 SPEED = 10
+from pyglet.graphics import Batch
 
 
-class Super_Mario_baros_game(arcade.Window):
-    def __init__(self, width, height):
-        super().__init__(width, height, "Super Mario Game")
+class MenuView(arcade.View):
+    def __init__(self):
+        super().__init__()
+        self.background_color = arcade.color.BLUE_GRAY  # Фон для меню
+
+        self.batch = Batch()
+        self.main_text = arcade.Text("Главное Меню", self.window.width / 2, self.window.height / 2 + 50,
+                                     arcade.color.WHITE, font_size=40, anchor_x="center", batch=self.batch)
+        self.space_text = arcade.Text("Нажми SPACE, чтобы начать!", self.window.width / 2, self.window.height / 2 - 50,
+                                      arcade.color.WHITE, font_size=20, anchor_x="center", batch=self.batch)
+
+    def on_draw(self):
+        self.clear()
+        self.batch.draw()
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.SPACE:
+            game_view = Super_Mario_baros_game()  # Создаём игровой вид
+            self.window.show_view(game_view)  # Переключаем
+
+
+class Super_Mario_baros_game(arcade.View):
+    def __init__(self):
+        super().__init__()
         arcade.set_background_color(arcade.color.PASTEL_BLUE)
         self.now_texture = "assets/Characters/Big Mario/big_mario_idle.png"
         self.moving_right_list = []
@@ -33,9 +56,6 @@ class Super_Mario_baros_game(arcade.Window):
         self.speed_right = 0
         self.world_camera = arcade.camera.Camera2D()
         self.animation_time = 0
-
-
-    def setup(self):
         self.tile_map = arcade.load_tilemap(r"assets/Stages/Mario_World.tmx", scaling=3)
 
         self.Mario = arcade.Sprite(r"assets/Characters/Big Mario/big_mario_idle.png", scale=2)
@@ -73,9 +93,9 @@ class Super_Mario_baros_game(arcade.Window):
             self.player_list.draw()
 
     def on_update(self, delta_time: float):
-        #for block in arcade.check_for_collision_with_list(self.Mario, self.blocks):
-            #if block.bottom + block.center_y >= self.Mario.top + self.Mario.center_y:
-                #self.coins.append(arcade.Sprite(""))
+        # for block in arcade.check_for_collision_with_list(self.Mario, self.blocks):
+        # if block.bottom + block.center_y >= self.Mario.top + self.Mario.center_y:
+        # self.coins.append(arcade.Sprite(""))
         self.animation_time += delta_time
         self.physics_engine.update()
         self.Mario.change_x = self.speed_right + self.speed_left
@@ -109,14 +129,15 @@ class Super_Mario_baros_game(arcade.Window):
             if self.Mario.change_y > 0:
                 if self.is_moving_Right:
                     self.Mario.texture = arcade.load_texture("assets/Characters/Big Mario/big_mario_jump.png")
-                if self.is_moving_left:
+                elif self.is_moving_left:
                     texture = arcade.load_texture("assets/Characters/Big Mario/big_mario_jump.png").flip_left_right()
                     self.Mario.texture = texture
+                else:
+                    self.Mario.texture = arcade.load_texture("assets/Characters/Big Mario/big_mario_jump.png")
             elif self.is_moving_Right and not self.is_moving_left:
                 self.Mario.texture = self.moving_right_list[self.now_number]
             elif self.is_moving_left and not self.is_moving_Right:
                 self.Mario.texture = self.moving_left_list[self.now_number]
-
 
     def on_key_press(self, key: int, modifiers: int):
         if key in [arcade.key.D, arcade.key.RIGHT]:
@@ -134,16 +155,7 @@ class Super_Mario_baros_game(arcade.Window):
             self.speed_left = 0
 
 
-def setup_game(width=SCREEN_WIDTH, height=SCREEN_HEIGHT):
-    game = Super_Mario_baros_game(width, height)
-    game.setup()
-    return game
-
-
-def main():
-    game = setup_game(SCREEN_WIDTH, SCREEN_HEIGHT)
-    arcade.run()
-
-
-if __name__ == "__main__":
-    main()
+window = arcade.Window(800, 600)
+menu_view = MenuView()
+window.show_view(menu_view)
+arcade.run()
