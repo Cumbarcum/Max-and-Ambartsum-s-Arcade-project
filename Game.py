@@ -1,3 +1,5 @@
+from symtable import Class
+
 import arcade
 import random
 
@@ -6,29 +8,81 @@ from pyglet.graphics import Batch
 
 SCREEN_WIDTH = 1920
 SCREEN_HEIGHT = 1200
-SPEED = 10
+SPEED = 6
 from pyglet.graphics import Batch
 
 
-class MenuView(arcade.View):
+class MenuGameOver(arcade.View):
     def __init__(self):
         super().__init__()
         self.background_color = arcade.color.BLUE_GRAY  # Фон для меню
 
         self.batch = Batch()
-        self.main_text = arcade.Text("Главное Меню", self.window.width / 2, self.window.height / 2 + 50,
+        self.main_text = arcade.Text("Game Over", SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2 + 150,
                                      arcade.color.WHITE, font_size=40, anchor_x="center", batch=self.batch)
-        self.space_text = arcade.Text("Нажми SPACE, чтобы начать!", self.window.width / 2, self.window.height / 2 - 50,
+        self.space_text = arcade.Text("Нажми SPACE, чтобы начать занова!", SCREEN_WIDTH / 2 - 200,
+                                      SCREEN_HEIGHT / 2 + 50,
                                       arcade.color.WHITE, font_size=20, anchor_x="center", batch=self.batch)
+        self.camera = arcade.camera.Camera2D()
+        self.camera.position = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 75)
 
     def on_draw(self):
         self.clear()
+        self.camera.use()
         self.batch.draw()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.SPACE:
             game_view = Super_Mario_baros_game()  # Создаём игровой вид
             self.window.show_view(game_view)  # Переключаем
+
+
+class MenuView(arcade.View):
+    def __init__(self):
+        super().__init__()
+
+        self.background_color = arcade.color.BLUE_GRAY  # Фон для меню
+
+        self.batch = Batch()
+        self.main_text = arcade.Text("Главное Меню", SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2 + 150,
+                                     arcade.color.WHITE, font_size=40, anchor_x="center", batch=self.batch)
+        self.space_text = arcade.Text("Нажми SPACE, чтобы начать!", SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2 + 50,
+                                      arcade.color.WHITE, font_size=20, anchor_x="center", batch=self.batch)
+        self.camera = arcade.camera.Camera2D()
+        self.camera.position = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 75)
+
+    def on_draw(self):
+        self.clear()
+        self.camera.use()
+        self.batch.draw()
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.SPACE:
+            game_view = Super_Mario_baros_game()  # Создаём игровой вид
+            self.window.show_view(game_view)  # Переключаем
+
+
+class PauseView(arcade.View):
+    def __init__(self, game_view):
+        super().__init__()
+        self.game_view = game_view  # Сохраняем, чтобы вернуться
+        self.batch = Batch()
+        self.pause_text = arcade.Text("Пауза", self.window.width / 2 - 325, self.window.height / 2 + 100,
+                                      arcade.color.WHITE, font_size=40, anchor_x="center", batch=self.batch)
+        self.space_text = arcade.Text("Нажми SPACE, чтобы продолжить", self.window.width / 2 - 300,
+                                      self.window.height / 2 + 50,
+                                      arcade.color.WHITE, font_size=20, anchor_x="center", batch=self.batch)
+        self.camera = arcade.camera.Camera2D()
+        self.camera.position = (self.window.width / 2 - 100, self.window.height / 2)
+
+    def on_draw(self):
+        self.clear()
+        self.camera.use()
+        self.batch.draw()
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.SPACE:
+            self.window.show_view(self.game_view)
 
 
 class Super_Mario_baros_game(arcade.View):
@@ -46,6 +100,7 @@ class Super_Mario_baros_game(arcade.View):
             texture = arcade.load_texture(f"assets/Characters/Big Mario/big_mario_move{i + 1}.png").flip_left_right()
             self.moving_left_list.append(texture)
         self.now_number = 0
+        self.time = 120
         self.is_moving_left = False
         self.is_moving_Right = False
         self.tile_map = None
@@ -84,6 +139,8 @@ class Super_Mario_baros_game(arcade.View):
 
     def on_draw(self):
         self.clear()
+        self.text = arcade.Text(str(int(self.time)), self.world_camera.position[0] - 200,
+                                self.world_camera.position[1] + self.world_camera.height // 2 - 80, arcade.color.RED, 30, 30)
         self.world_camera.use()
         if self.tile_map:
             for key in self.tile_map.sprite_lists:
@@ -91,8 +148,13 @@ class Super_Mario_baros_game(arcade.View):
 
         if self.player_list:
             self.player_list.draw()
+        self.text.draw()
 
     def on_update(self, delta_time: float):
+        self.time -= delta_time
+        if self.time <= 0 or self.Mario.center_y < -5:
+            game_over = MenuGameOver()
+            self.window.show_view(game_over)
         # for block in arcade.check_for_collision_with_list(self.Mario, self.blocks):
         # if block.bottom + block.center_y >= self.Mario.top + self.Mario.center_y:
         # self.coins.append(arcade.Sprite(""))
@@ -110,8 +172,13 @@ class Super_Mario_baros_game(arcade.View):
         )
         if self.animation_time > 0.1:
             self.animation_time = 0
-            if self.speed_left + self.speed_right == 0:
-                self.now_texture = "assets/Characters/Big Mario/big_mario_idle.png"
+            if self.Mario.change_y < 0 and not self.is_moving_left:
+                self.Mario.texture = arcade.load_texture("assets/Characters/Big Mario/big_mario_idle.png")
+            elif self.Mario.change_y < 0 and self.is_moving_left:
+                self.Mario.texture = arcade.load_texture(
+                    "assets/Characters/Big Mario/big_mario_idle.png").flip_left_right()
+            elif self.speed_left + self.speed_right == 0:
+                self.Mario.texture = arcade.load_texture("assets/Characters/Big Mario/big_mario_idle.png")
                 self.is_moving_Right = False
                 self.is_moving_left = False
             elif self.speed_right > 0:
@@ -147,6 +214,9 @@ class Super_Mario_baros_game(arcade.View):
         if key in [arcade.key.W, arcade.key.UP, arcade.key.SPACE]:
             if self.physics_engine and self.physics_engine.can_jump():
                 self.Mario.change_y = 15
+        if key == arcade.key.ESCAPE:
+            pause_view = PauseView(self)
+            self.window.show_view(pause_view)
 
     def on_key_release(self, key: int, modifiers: int):
         if key in [arcade.key.D, arcade.key.RIGHT]:
@@ -155,7 +225,20 @@ class Super_Mario_baros_game(arcade.View):
             self.speed_left = 0
 
 
-window = arcade.Window(800, 600)
+class muchroom(arcade.Sprite):
+    def __init__(self, center_x, center_y):
+        super().__init__(center_x, center_y)
+        self.center_y = center_y
+        self.center_x = center_x
+        self.texture = arcade.load_texture("assets/mushroom.png")
+        self.Way = random.choice([True, False])
+
+    def update(self, delta_time):
+        if self.Way:
+            pass
+
+
+window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT)
 menu_view = MenuView()
 window.show_view(menu_view)
 arcade.run()
