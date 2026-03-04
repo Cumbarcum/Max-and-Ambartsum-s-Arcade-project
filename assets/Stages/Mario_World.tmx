@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="211" height="15" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="1">
+ <tileset firstgid="1" name="NES - Super Mario Bros. - Miscellaneous - Tileset" tilewidth="16" tileheight="16" spacing="1" tilecount="1800" columns="40">
+  <image source="NES - Super Mario Bros. - Miscellaneous - Tileset.png" width="680" height="776"/>
+ </tileset>
+ <tileset firstgid="1801" source="Блоки.tsx"/>
+ <tileset firstgid="2249" source="Труба.tsx"/>
+ <tileset firstgid="2257" source="Столб.tsx"/>
+ <tileset firstgid="2258" source="Замок.tsx"/>
+ <tileset firstgid="2259" source="../../../../Downloads/NES - Super Mario Bros. - Miscellaneous - Tileset.png.tsx"/>
+ <layer id="1" name="Земля" width="211" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztl0sOwyAMBbPsVcj9L9F/j5NlWTRqigCb4ESFzEhWI2GDa70nkuk0AIABE14CMAEvAdiAlwBswEsANuClOkYhUrl7kjt3TDz3ivvEFuAlOApuwEsAtbgBLwHUEvqoFS+NiV9rzr7vi7L3klwNFv8tVWv1PVWyh3SmSzxLhLpdo+Flb2vmEvNRK16yQtL/1a/dlL2X5MIvMT9otBjT7ZY6lnro0UvaO0LS/92vPZS9l+TCl5wfcnpM6VaqrX1/WNbnfNSLl7R3hKT/p197KXsvyV3OY+1swrp/vftzaPwQ02ROt1Jt7fvDXC/5SHuvlqI592hhMRtmbDtPos2Ysdijdp8e4ihzeAMMmYGh
+  </data>
+ </layer>
+ <layer id="4" name="Блоки" width="211" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt1jEKACAIBVC37n+1TtQUNOQWBfbeJIJf3IwAAAAAoJre3sxmeaczAQCA/Z89e5V/8Nu3rfuyurJf7gQAAADIDKRFCi0=
+  </data>
+ </layer>
+ <layer id="8" name="Стены" width="211" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T+1vBqAAAAAAAAAAAAAAAAB4AzF0AAE=
+  </data>
+ </layer>
+ <layer id="5" name="Столб" width="211" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztziEBAAAIA7BL+jejEZYGILYESwAAAAAAAAAAAICt63oAAMAHA8A8ANo=
+  </data>
+ </layer>
+ <imagelayer id="7" name="Флаг на столбе" offsetx="3160" offsety="49">
+  <image source="Items/Флаг на столбе.png" width="16" height="16"/>
+ </imagelayer>
+ <layer id="6" name="Замок" width="211" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztzjERAAAIBKAf7R/NRGZw8FwgAQkAAAAAAAAAAAAA3Ov6HgDAzgDtzwDb
+  </data>
+ </layer>
+</map>
